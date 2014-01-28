@@ -1,0 +1,11 @@
+- Vérifier (et terminer ?) les envois de  mails automatiques
+- Définir le comportement en cas de modification du fichier des cycles (actuellement cela ne modifie pas les dates des séances des accompagnement déjà créés).
+- Du beau CSS pour les boutons ?
+- Revoir la présentation dans la page d'administration  ?
+- relecture générale pour vérification
+- Trancher la question : un élève peut-il avoir deux inscriptions pour le même cycle ?
+- Les utilisateurs inactifs doivent-ils pouvoir se connecter ?
+
+Pour une V2:
+- Ecrire un système de notification et requêtes uniformisé en javascript
+- Fournir une page d'options pour l'administrateur permettant de personnaliser les envois de mails (texte messages/frequence)
