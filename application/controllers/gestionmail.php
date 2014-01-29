@@ -26,7 +26,6 @@ class Gestionmail extends CI_Controller {
 	public function checkDateCycle(){
 		$jetonrappel=$this->gestionmail_model->getrappel();
 		if ($jetonrappel) {
-			$this->load->library('email');
 			$listeCycle=$this->cycles_model->cycleSoon();
 			foreach ($listeCycle as $cycle) {
 				$listeNonInscrits=$this->inscriptions_model->getNonInscrits($cycle);
@@ -44,6 +43,26 @@ class Gestionmail extends CI_Controller {
 		}
 	}
 
+
+
+	public function checkNonInscrits(){
+		$listeNonInscritsTotal = array();
+			$listeCycle=$this->cycles_model->cycleSoon2();
+			foreach ($listeCycle as $cycle) {
+				$jours = $this->gestionmail_model->compareDateCycle($cycle);
+				if ($jours = 4){
+					$listeNonInscrits=$this->inscriptions_model->getNonInscrits($cycle);
+					foreach ($listeNonInscrits as $eleve){
+						array_push($listeNonInscritsTotal, $eleve["nom"]); 
+					}
+				$result = array_unique($listeNonInscritsTotal);
+				$message = implode(",",$result) ;
+				$from = 'alice.nowicki0@gmail.com';
+				$to = 'alice.no@laposte.net';
+				$listeE = $this->gestionmail_model->sendMail($from,$to,$message);
+				}
+			}	
+	}
 	
 
 	public function mailreinit(){

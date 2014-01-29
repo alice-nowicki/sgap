@@ -48,6 +48,17 @@ class Gestionmail_model extends CI_Model {
 		return $listeE;
 	}
 
+	function compareDateCycle($cycle){
+		$date0=date("m/d/y");
+		$date1 = new DateTime($date0);
+		$date2 = strtotime($cycle);
+		$date3 = date("m/d/y",$date2);
+		$date4 = new DateTime($date3);
+		$interval = date_diff($date1,$date4);
+		$interval2 = intval($interval->format('%R%a'));
+		return($interval2);
+	}
+
 
 	
 }
