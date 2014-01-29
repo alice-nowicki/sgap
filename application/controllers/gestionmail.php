@@ -28,13 +28,15 @@ class Gestionmail extends CI_Controller {
 		if ($jetonrappel) {
 			$listeCycle=$this->cycles_model->cycleSoon();
 			foreach ($listeCycle as $cycle) {
-				$listeNonInscrits=$this->inscriptions_model->getNonInscrits($cycle);
-				foreach ($listeNonInscrits as $eleve){
-					$message = "vous devez vous inscrire ".$eleve['nom']." au cycle ".$cycle ;
-					$from = 'alice.nowicki0@gmail.com';
-					$to = $eleve['mail'];
-					$listeE = $this->gestionmail_model->sendMail($from,$to,$message);
-					
+				$jours = $this->gestionmail_model->compareDateCycle($cycle);
+				if (($jours = 10) or ($jours = 5)){
+					$listeNonInscrits=$this->inscriptions_model->getNonInscrits($cycle);
+					foreach ($listeNonInscrits as $eleve){
+						$message = "vous devez vous inscrire ".$eleve['nom']." au cycle ".$cycle ;
+						$from = 'alice.nowicki0@gmail.com';
+						$to = $eleve['mail'];
+						$listeE = $this->gestionmail_model->sendMail($from,$to,$message);
+					}
 				}
 			}
 			return $listeE;
@@ -47,7 +49,7 @@ class Gestionmail extends CI_Controller {
 
 	public function checkNonInscrits(){
 		$listeNonInscritsTotal = array();
-			$listeCycle=$this->cycles_model->cycleSoon2();
+			$listeCycle=$this->cycles_model->cycleSoon();
 			foreach ($listeCycle as $cycle) {
 				$jours = $this->gestionmail_model->compareDateCycle($cycle);
 				if ($jours = 4){

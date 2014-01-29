@@ -132,30 +132,7 @@ class Cycles_model extends CI_Model {
 		return($res);
 	}
 	
-	public function cycleSoon2(){
-		$cyclesoon = array();
-		$date0=date("m/d/y");
-		$date1 = new DateTime($date0);
-		$this->db-> select('id, debut,actif');
-		$this->db-> from('cycles');
-		$this->db-> where(array('actif'=>true));
-		$this->db-> order_by("debut", "asc");
-		$query = $this->db->get();
-		$cycles = $query->result_array();
-		foreach ($cycles as $cycle){
-			//$date2 = new DateTime($cycle['debut']);
-			$date2 = strtotime($cycle['debut']);
-			$date3 = date("m/d/y",$date2);
-			$date4 = new DateTime($date3);
-			$interval = date_diff($date1,$date4);
-			$interval2 = intval($interval->format('%R%a'));
-			if($interval2 < 10 and $interval2> 0){
-				array_push($cyclesoon, $cycle["debut"]);
-			}
-		}
-		$res=array_unique($cyclesoon);
-		return($res);
-	}
+	
 
 
 	
