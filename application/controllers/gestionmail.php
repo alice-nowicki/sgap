@@ -10,7 +10,7 @@ class Gestionmail extends CI_Controller {
 		$this->load->model('matieres_model');
 		$this->load->model('cycles_model');
 		$this->load->helper(array('datefr'));
-		
+		$this->load->library('email');
 		
 	
 		
@@ -27,20 +27,24 @@ class Gestionmail extends CI_Controller {
 		$jetonrappel=$this->gestionmail_model->getrappel();
 		if ($jetonrappel) {
 			$this->load->library('email');
-			$listeEchec=array();
-			$listeEnvoye=array();
 			$listeCycle=$this->cycles_model->cycleSoon();
 			foreach ($listeCycle as $cycle) {
 				$listeNonInscrits=$this->inscriptions_model->getNonInscrits($cycle);
 				foreach ($listeNonInscrits as $eleve){
 					$message = "vous devez vous inscrire ".$eleve['nom']." au cycle ".$cycle ;
-					$from = 'alice.no@laposte.net'
-					$to = $eleve['mail']
-					$sendMail=$this->gestionmail_model->sendMail($from,$to,$message);
+					$from = 'alice.nowicki0@gmail.com';
+					$to = $eleve['mail'];
+					$listeE = $this->gestionmail_model->sendMail($from,$to,$message);
+					
 				}
 			}
+			return $listeE;
+		}else{
+			return "email deja envoye";
 		}
 	}
+
+	
 
 	public function mailreinit(){
 		$mail = $this->session->flashdata('mail');

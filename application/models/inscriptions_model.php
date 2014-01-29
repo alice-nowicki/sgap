@@ -22,7 +22,7 @@ class Inscriptions_model extends CI_Model {
 		$query=$this->db->get();
 		$inscrits=$query->result_array();
 		
-		$this->db->select('users.id AS eleve_id, nom, prenom, classe, groupe');
+		$this->db->select('users.id AS eleve_id, nom, prenom,mail, classe, groupe');
 		$this->db->from('users');
 		$this->db->where(array('profil'=>1));
 		$this->db->where_not_in(array('users.id'=>$inscrits));

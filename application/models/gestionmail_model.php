@@ -4,6 +4,7 @@ class Gestionmail_model extends CI_Model {
 	public function __construct()
 	{
 		$this->load->database();
+		$this->load->library('email');
 	}
 
 	function getrappel(){
@@ -18,11 +19,10 @@ class Gestionmail_model extends CI_Model {
 		$query = $this->db->get();
 		$res = $query->row();
 
-		//echo var_dump($res);
+
 		$lastdate = $res -> daterappel;
-		//echo $lastdate ;
 		$date3=time();
-		$date0=date("m/d/y");
+		$date0=date("Y-m-d");
 		if($date0 == $lastdate){
 			return false;
 		}else{
@@ -34,11 +34,20 @@ class Gestionmail_model extends CI_Model {
 	}
 
 	function sendMail($from,$to,$message){
+		$listeE=array("listeEchec"=>array(),"listeEnvoi"=>array());
 		$this->email->clear();
 		$this->email->from($from, 'Administrateur');
 		$this->email->to($to);
 		$this->email->subject('Email');
 		$this->email->message($message);	
-		$this->email->send();
+		if(!$this->email->send()){
+			array_push($listeE["listeEchec"], $to);
+		}else{ 
+			array_push($listeE["listeEnvoi"], $to);
+		}
+		return $listeE;
 	}
+
+
+	
 }
